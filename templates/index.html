@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafeHer | Women's Safety</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+</head>
+
+<body>
+
+    <div class="app-container">
+
+        <!-- ================= SIDEBAR ================= -->
+        <aside class="sidebar" id="sidebar">
+
+            <div class="brand">
+                <div class="brand-icon">💗</div>
+                <div>
+                    <h2>SafeHer</h2>
+                    <p>Your safety companion</p>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav" aria-label="Main navigation">
+
+                <button type="button" class="nav-link active" data-section="home" onclick="showSection('home')">
+                🏠 Dashboard
+            </button>
+
+                <button type="button" class="nav-link" data-section="sos" onclick="showSection('sos')">
+                🚨 Emergency SOS
+            </button>
+
+                <button type="button" class="nav-link" data-section="remote" onclick="showSection('remote')">
+                📡 Hands-Free & IoT
+            </button>
+
+                <button type="button" class="nav-link" data-section="threat" onclick="showSection('threat')">
+                🛡️ Threat Detector
+            </button>
+
+                <button type="button" class="nav-link" data-section="journey" onclick="showSection('journey')">
+                🗺️ Safe Journey
+            </button>
+
+                <button type="button" class="nav-link" data-section="incidents" onclick="showSection('incidents')">
+                📝 Incident Log
+            </button>
+
+                <button type="button" class="nav-link" data-section="privacy" onclick="showSection('privacy')">
+                🔐 Privacy & Safety
+            </button>
+
+                <button type="button" class="nav-link" data-section="about" onclick="showSection('about')">
+                💗 About SafeHer
+            </button>
+
+            </nav>
+
+            <div class="sidebar-footer">
+                <p>Stay aware. Stay connected.</p>
+                <small>Your safety matters.</small>
+            </div>
+
+        </aside>
+
+
+        <!-- ================= MAIN CONTENT ================= -->
+        <main class="main-content">
+
+            <header class="topbar">
+                <button type="button" class="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle navigation">
+                    ☰
+                </button>
+
+                <div class="topbar-title-block">
+                    <h1 id="pageTitle">Dashboard</h1>
+                    <p>Your personal safety space</p>
+                </div>
+
+                <div class="topbar-quick-actions">
+                    <span id="topbarVoiceGuardBadge" class="topbar-guard-badge" title="Hands-free acoustic ear: listening for 'Bachao' or 'Help'">
+                        🎙️ Voice Guard: Active
+                    </span>
+                    <button type="button" class="quick-tool-btn fake-call-btn" onclick="startFakeCallCountdown(3)" title="Discreet Escape: Fake phone call in 3 seconds">
+                        📞 Fake Call
+                    </button>
+                    <button type="button" class="quick-tool-btn siren-btn" onclick="toggleEmergencySiren()" title="Sound high-decibel deterrent siren">
+                        📢 Siren
+                    </button>
+                    <button type="button" class="quick-tool-btn stealth-btn" onclick="toggleStealthMode()" title="Disguise app as Calculator (Alt+S)">
+                        🕵️ Stealth Mode
+                    </button>
+                </div>
+            </header>
+
+
+            <!-- ================= 1. DASHBOARD ================= -->
+            <section id="home" class="page-section dashboard-page active">
+
+                <div class="welcome-banner">
+                    <div>
+                        <p class="eyebrow">WELCOME TO SAFEHER</p>
+                        <h2>Your safety. Your choices. Your power.</h2>
+                        <p>
+                            Tools and information to help you plan, stay aware, and reach trusted people.
+                        </p>
+                        <button type="button" class="primary-button" onclick="showSection('sos')">
+                        Open Emergency SOS
+                    </button>
+                    </div>
+                    <div class="welcome-illustration">🌸</div>
+                </div>
+
+                <!-- Safety check-in -->
+                <div class="content-card">
+                    <h2>How are you feeling today?</h2>
+                    <p>Check in with yourself. Your feelings matter.</p>
+
+                    <div class="checkin-options">
+                        <button type="button" class="checkin-option" onclick="setSafetyMood('safe', this)">
+                        😊 I feel safe
+                    </button>
+
+                        <button type="button" class="checkin-option" onclick="setSafetyMood('cautious', this)">
+                        😐 I feel cautious
+                    </button>
+
+                        <button type="button" class="checkin-option" onclick="setSafetyMood('support', this)">
+                        💗 I need support
+                    </button>
+                    </div>
+
+                    <p id="safetyMoodMessage" aria-live="polite"></p>
+                </div>
+
+                <!-- Readiness score -->
+                <div class="content-card">
+                    <h2>My Safety Readiness</h2>
+                    <p>Check the items you have prepared.</p>
+
+                    <div class="readiness-checks">
+                        <label>
+                        <input type="checkbox" id="readyContact"
+                               onchange="updateReadinessScore()">
+                        Trusted contact is available
+                    </label>
+
+                        <label>
+                        <input type="checkbox" id="readyPhone"
+                               onchange="updateReadinessScore()">
+                        My phone is charged
+                    </label>
+
+                        <label>
+                        <input type="checkbox" id="readyTransport"
+                               onchange="updateReadinessScore()">
+                        My transport is planned
+                    </label>
+
+                        <label>
+                        <input type="checkbox" id="readyEmergency"
+                               onchange="updateReadinessScore()">
+                        I know how to seek emergency help
+                    </label>
+                    </div>
+
+                    <div class="readiness-number">
+                        <span id="readinessScore">0</span>%
+                    </div>
+
+                    <div class="progress-track">
+                        <div id="readinessProgressBar" class="progress-bar" style="width: 0%">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Daily safety tip -->
+                <div class="content-card">
+                    <h2>Today's Safety Tip 💡</h2>
+                    <h3 id="dailyTipTitle">Protect Your Personal Information</h3>
+                    <p id="dailySafetyTip">
+                        Never share your OTP, passwords, or banking details with someone who contacts you unexpectedly.
+                    </p>
+
+                    <button type="button" class="secondary-button" onclick="showNextSafetyTip()">
+                    Show Another Tip
+                </button>
+                </div>
+
+                <!-- Before you leave -->
+                <div class="content-card">
+                    <h2>Before You Leave Checklist</h2>
+                    <p>Prepare for your trip with these simple checks.</p>
+
+                    <div class="leave-checklist">
+                        <label>
+                        <input type="checkbox" class="leave-check"
+                               onchange="updateLeaveChecklist()">
+                        Phone charged
+                    </label>
+
+                        <label>
+                        <input type="checkbox" class="leave-check"
+                               onchange="updateLeaveChecklist()">
+                        Transport arranged
+                    </label>
+
+                        <label>
+                        <input type="checkbox" class="leave-check"
+                               onchange="updateLeaveChecklist()">
+                        Trusted person informed if needed
+                    </label>
+
+                        <label>
+                        <input type="checkbox" class="leave-check"
+                               onchange="updateLeaveChecklist()">
+                        Route checked
+                    </label>
+                    </div>
+
+                    <p id="leaveChecklistProgress" aria-live="polite">
+                        0 of 4 completed
+                    </p>
+                </div>
+
+                <!-- Confidence corner -->
+                <div class="confidence-card">
+                    <h2>Remember 💗</h2>
+                    <p>
+                        You have the right to set boundaries, ask for help, and make decisions that support your safety.
+                    </p>
+                    <button type="button" class="secondary-button" onclick="showSection('privacy')">
+                    Explore Safety Tips
+                </button>
+                </div>
+
+            </section>
+
+
+            <!-- ================= 2. EMERGENCY SOS ================= -->
+            <section id="sos" class="page-section sos-page">
+
+                <div class="page-intro">
+                    <p class="eyebrow">EMERGENCY SUPPORT</p>
+                    <h2>Emergency SOS &#x1F6A8;</h2>
+                    <p>
+                        Prepare an emergency message and share your location with someone you trust.
+                    </p>
+                </div>
+
+                <!-- Big animated SOS button -->
+                <div class="sos-emergency-card">
+                    <div class="sos-circle-wrapper">
+                        <button type="button" class="sos-circle" id="emergencySOSButton"
+                                onclick="activateEmergencySOS()"
+                                aria-label="Activate Emergency SOS">
+                            <span class="sos-circle-text">SOS</span>
+                            <span class="sos-circle-subtext">PRESS FOR HELP</span>
+                        </button>
+                    </div>
+
+                    <h2>Need help right now?</h2>
+                    <p>
+                        Select a trusted contact, then press the red SOS button or use the
+                        buttons below to prepare an emergency message with your live location.
+                    </p>
+
+                    <!-- Contact selector -->
+                    <div class="sos-contact-row">
+                        <label for="sosContactSelect">Choose your trusted contact</label>
+                        <select id="sosContactSelect">
+                            <option value="">Choose a trusted contact</option>
+                        </select>
+                    </div>
+
+                    <!-- Status messages -->
+                    <p id="sosStatus"         class="sos-status-msg" role="status" aria-live="polite"></p>
+                    <p id="locationStatus"    class="sos-status-msg" role="status" aria-live="polite"></p>
+                    <a id="locationMapLink" href="#" target="_blank" rel="noopener noreferrer"
+                       class="sos-map-link" style="display:none">
+                        &#x1F4CD; View my location on Google Maps
+                    </a>
+                    <p id="sosSmsStatus"      class="sos-status-msg" role="status" aria-live="polite"></p>
+                    <p id="whatsappSOSStatus" class="sos-status-msg" role="status" aria-live="polite"></p>
+
+                    <!-- Action buttons -->
+                    <div class="sos-action-buttons">
+                        <button type="button" class="sms-button" onclick="prepareSOSMessage()">
+                            &#x1F4F1; Prepare SMS
+                        </button>
+                        <button type="button" class="whatsapp-button" onclick="sendSOSViaWhatsApp()">
+                            &#x1F4AC; Send via WhatsApp
+                        </button>
+                        <button type="button" class="secondary-button" onclick="getCurrentLocation()">
+                            &#x1F4CD; Get My Location
+                        </button>
+                    </div>
+
+                    <div class="safety-notice">
+                        <strong>&#x26A0;&#xFE0F; Important:</strong> Messages are <em>not</em> sent automatically
+                        &mdash; you review and send them from your messaging app.
+                        If you are in immediate danger in India, call <strong>112</strong> when safe to do so.
+                    </div>
+                </div>
+
+                <!-- Quick link to Remote & Wearable -->
+                <div class="content-card remote-nav-teaser" onclick="showSection('remote')">
+                    <div class="teaser-content">
+                        <span class="teaser-icon">💍</span>
+                        <div>
+                            <h3>Phone in your bag or out of reach?</h3>
+                            <p>Configure Bluetooth Smart Rings, Panic Buttons, and Automated "Bachao" Voice triggers.</p>
+                        </div>
+                        <button type="button" class="secondary-button teaser-btn">Open Hands-Free Safety ➔</button>
+                    </div>
+                </div>
+
+                <!-- Trusted contacts card -->
+                <div class="content-card">
+                    <div class="section-heading">
+                        <div>
+                            <h2>My Trusted Contacts</h2>
+                            <p>Add people you can contact when you need support.
+                               Contacts are stored in this browser only.</p>
+                        </div>
+                        <div class="card-icon">&#x1F465;</div>
+                    </div>
+
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="contactName">Contact name</label>
+                            <input type="text" id="contactName" placeholder="Enter name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="contactPhone">Phone number with country code</label>
+                            <input type="tel" id="contactPhone" placeholder="+919876543210" required>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="primary-button">&#x2795; Add Trusted Contact</button>
+                        </div>
+                    </form>
+
+                    <div id="trustedContactsList" class="trusted-contacts-list contacts-list">
+                        <div class="empty-state">
+                            <div class="empty-state-icon">&#x1F465;</div>
+                            <h2>No contacts yet</h2>
+                            <p>No trusted contacts added yet. Add someone you trust above.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+
+            <!-- ================= SPECIAL SECTION: REMOTE & HANDS-FREE SAFETY ================= -->
+            <section id="remote" class="page-section remote-page">
+
+                <div class="page-intro">
+                    <p class="eyebrow">IOT & HANDS-FREE DEFENSE</p>
+                    <h2>Remote & Hands-Free Safety 📡</h2>
+                    <p>
+                        Discreet emergency protection when your phone is in a handbag, across the room, or knocked away during a struggle.
+                    </p>
+                </div>
+
+                <!-- 3-Step Visual Infographic Banner -->
+                <div class="remote-hero-banner">
+                    <div class="hero-step">
+                        <span class="step-num">1</span>
+                        <div class="step-icon">💍</div>
+                        <h4>Discreet Ring Trigger</h4>
+                        <p>One-touch BLE physical click in pocket or on finger.</p>
+                    </div>
+                    <div class="hero-arrow">➔</div>
+                    <div class="hero-step">
+                        <span class="step-num">2</span>
+                        <div class="step-icon">🎙️</div>
+                        <h4>Acoustic Voice Ear</h4>
+                        <p>Shouting "Bachao" or "Help" triggers alarm across the room.</p>
+                    </div>
+                    <div class="hero-arrow">➔</div>
+                    <div class="hero-step">
+                        <span class="step-num">3</span>
+                        <div class="step-icon">⚡</div>
+                        <h4>Automated Dispatch</h4>
+                        <p>Instant phone call to 112/Family + live GPS coordinates.</p>
+                    </div>
+                </div>
+
+                <!-- 1. Bluetooth Smart Wearable Link Card -->
+                <div class="content-card remote-card-highlight">
+                    <div class="section-heading">
+                        <div>
+                            <h2>Bluetooth Smart Ring & Wearable Link 💍</h2>
+                            <p>Connect any Bluetooth Low Energy Smart Ring, fitness band, or ₹150 panic button key fob.</p>
+                        </div>
+                        <span class="iot-badge">BLE 5.0 Active</span>
+                    </div>
+
+                    <div class="wearable-action-selector">
+                        <label for="wearableAutoCallAction">⚡ When Ring Button is Pressed:</label>
+                        <select id="wearableAutoCallAction" class="wearable-select">
+                            <option value="trusted">📞 Auto-Call Trusted Contact + SMS Location</option>
+                            <option value="police">🚔 Auto-Call Police 112 + SMS Location</option>
+                            <option value="all">🚨 Full Alarm: Auto-Call + Siren + SMS</option>
+                        </select>
+                    </div>
+
+                    <div class="remote-status-row">
+                        <span id="bleStatusBadge" class="status-pill offline">⚪ Not Connected</span>
+                        <span id="bleDeviceName" class="device-name-text"></span>
+                    </div>
+
+                    <div class="button-group">
+                        <button type="button" class="primary-button" id="pairBleBtn" onclick="connectBluetoothWearable()">
+                            🔗 Connect Bluetooth Ring / Fob
+                        </button>
+                        <button type="button" class="secondary-button" onclick="simulateWearablePress()" title="Simulate wearable button click for live hackathon presentation">
+                            ⚡ Test Ring Press (Auto-Call)
+                        </button>
+                    </div>
+                    <p class="remote-hint">💡 <strong>Discreet Hardware Integration:</strong> Pressing your wearable ring immediately places an urgent phone call & sends your GPS coordinates without opening your phone.</p>
+                </div>
+
+                <!-- 2. Acoustic Voice Distress Trigger Card -->
+                <div class="content-card voice-card-highlight">
+                    <div class="section-heading">
+                        <div>
+                            <h2>Automated Voice Distress Trigger (Hands-Free) 🎙️</h2>
+                            <p>Phone across the room or dropped? SafeHer automatically monitors for distress cries.</p>
+                        </div>
+                        <span class="voice-badge">Acoustic AI</span>
+                    </div>
+
+                    <div class="auto-voice-toggle-row">
+                        <label class="toggle-switch-label">
+                            <input type="checkbox" id="autoVoiceGuardianCheckbox" onchange="toggleAutoVoicePreference(this.checked)" checked>
+                            <span><strong>Always-On Auto Listening:</strong> Automatically listen for "Bachao" / "Help" whenever SafeHer is open</span>
+                        </label>
+                    </div>
+
+                    <div class="remote-status-row">
+                        <span id="voiceStatusBadge" class="status-pill listening">🔴 Auto-Listening Active</span>
+                        <span id="voiceTriggerFeedback" class="device-name-text">Monitoring for: "Bachao", "Help", "Emergency"</span>
+                    </div>
+
+                    <div class="button-group">
+                        <button type="button" class="primary-button" id="voiceToggleBtn" onclick="toggleVoiceTrigger()">
+                            ⏹️ Pause Listening
+                        </button>
+                        <button type="button" class="secondary-button" onclick="simulateVoiceDistress()" title="Simulate hearing 'Bachao' for hackathon presentation">
+                            ⚡ Test Voice Trigger ("Bachao")
+                        </button>
+                    </div>
+                    <p class="remote-hint">💡 <strong>Hands-Free Protection:</strong> You don't need to touch your phone. Shouting "Bachao" or "Help" triggers an instant emergency call, siren, and location dispatch.</p>
+                </div>
+
+                <!-- 3. Hardware Architecture Guide for Hackathon Judges -->
+                <div class="content-card hardware-architecture-card">
+                    <div class="section-heading">
+                        <div>
+                            <h2>Hardware & IoT Architecture (How It Works)</h2>
+                            <p>Seamlessly bridging low-power consumer wearables with emergency response.</p>
+                        </div>
+                        <span class="arch-badge">System Architecture</span>
+                    </div>
+                    <div class="arch-grid">
+                        <div class="arch-box">
+                            <span class="arch-icon">💍</span>
+                            <h4>1. Wearable Layer</h4>
+                            <p>Operates over BLE GATT profile. Low power consumption; battery lasts 6-12 months.</p>
+                        </div>
+                        <div class="arch-box">
+                            <span class="arch-icon">🌐</span>
+                            <h4>2. Web Bluetooth</h4>
+                            <p>Web Bluetooth API (navigator.bluetooth) establishes encrypted wireless connection without native app installs.</p>
+                        </div>
+                        <div class="arch-box">
+                            <span class="arch-icon">☁️</span>
+                            <h4>3. Telephony Gateway</h4>
+                            <p>Backend triggers automated PSTN voice calls and SMS dispatch with live GPS coordinates to trusted contacts & 112.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+
+            <!-- ================= 3. THREAT DETECTOR ================= -->
+            <section id="threat" class="page-section threat-page">
+
+                <div class="page-intro">
+                    <p class="eyebrow">DIGITAL SAFETY</p>
+                    <h2>Threat Detector 🛡️</h2>
+                    <p>
+                        Check a suspicious message for warning phrases, possible scams, and threatening language.
+                    </p>
+                </div>
+
+                <div class="content-card">
+                    <label for="messageInput">
+                    Paste the message you want to check
+                </label>
+
+                    <textarea id="messageInput" rows="7" maxlength="3000" placeholder="Paste a suspicious message here..." oninput="updateCharacterCount()"></textarea>
+
+                    <p id="characterCount">0 / 3000 characters</p>
+
+                    <div class="button-group">
+                        <button type="button" class="primary-button" onclick="analyseMessage()">
+                        🔍 Analyse Message
+                    </button>
+
+                        <button type="button" class="secondary-button" onclick="clearThreatInput()">
+                        Clear
+                    </button>
+                    </div>
+
+                    <h3>Try an example</h3>
+
+                    <div class="button-group">
+                        <button type="button" class="secondary-button" onclick="loadThreatExample('threat')">
+                        Threatening Message
+                    </button>
+
+                        <button type="button" class="secondary-button" onclick="loadThreatExample('blackmail')">
+                        Blackmail
+                    </button>
+
+                        <button type="button" class="secondary-button" onclick="loadThreatExample('suspicious')">
+                        Suspicious Message
+                    </button>
+
+                        <button type="button" class="secondary-button" onclick="loadThreatExample('safe')">
+                        Ordinary Message
+                    </button>
+                    </div>
+                </div>
+
+                <div class="content-card ai-analysis-card">
+                    <div class="section-heading">
+                        <div>
+                            <h2>AI Threat & Legal Analysis</h2>
+                            <p>Powered by Scikit-Learn TF-IDF NLP model & Indian Cyber Law Heuristics.</p>
+                        </div>
+                        <span class="ai-badge">🤖 AI Engine Active</span>
+                    </div>
+
+                    <div id="analysisResult" aria-live="polite">
+                        <div class="empty-state">
+                            <div class="empty-state-icon">🛡️</div>
+                            <h3>AI Threat Analysis Ready</h3>
+                            <p>
+                                Paste an email, DM, or SMS above to analyze harassment, blackmail, stalking, and identity misuse.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-card legal-resource-card">
+                    <h3>Legal Rights & Cyber Reporting</h3>
+                    <p>
+                        If you receive threatening, sexually explicit, or blackmail messages:
+                    </p>
+                    <ul class="legal-checklist">
+                        <li><strong>National Cyber Crime Portal:</strong> Call <a href="tel:1930">1930</a> or visit <a href="https://cybercrime.gov.in" target="_blank" rel="noopener">cybercrime.gov.in</a></li>
+                        <li><strong>Voyeurism & Image Blackmail:</strong> Punishable under Section 66E, 67A IT Act & IPC Section 354C.</li>
+                        <li><strong>Cyberstalking:</strong> Punishable under IPC Section 354D with up to 3–5 years imprisonment.</li>
+                        <li><strong>Women's Helpline (24/7):</strong> Call <a href="tel:1091">1091</a> or NCW Helpline <a href="tel:7827170170">7827170170</a>.</li>
+                    </ul>
+                </div>
+
+            </section>
+
+
+            <!-- ================= 4. SAFE JOURNEY PLANNER ================= -->
+            <section id="journey" class="page-section journey-page">
+
+                <div class="page-intro">
+                    <p class="eyebrow">PLAN YOUR TRIP</p>
+                    <h2>Safe Journey Planner 🗺️</h2>
+                    <p>
+                        Record your route and prepare a journey update for someone you trust.
+                    </p>
+                </div>
+
+                <div class="content-card">
+                    <form id="journeyForm">
+
+                        <div class="form-group">
+                            <label for="journeyStart">Starting point</label>
+                            <input type="text" id="journeyStart" placeholder="Enter starting location" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="journeyDestination">Destination</label>
+                            <input type="text" id="journeyDestination" placeholder="Enter destination" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="journeyMode">Travel mode</label>
+                            <select id="journeyMode">
+                            <option value="driving">Car</option>
+                            <option value="walking">Walking</option>
+                            <option value="bicycling">Bicycle</option>
+                            <option value="transit">Public transport</option>
+                        </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="journeyDeparture">Departure time</label>
+                            <input type="datetime-local" id="journeyDeparture">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="journeyArrival">
+                            Expected arrival (optional)
+                        </label>
+                            <input type="datetime-local" id="journeyArrival">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="journeyContact">
+                            Trusted contact (optional)
+                        </label>
+                            <select id="journeyContact">
+                            <option value="">
+                                Select a trusted contact (optional)
+                            </option>
+                        </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="journeyNotes">Additional notes</label>
+                            <textarea id="journeyNotes" rows="3" placeholder="Optional journey notes"></textarea>
+                        </div>
+
+                        <div class="button-group">
+                            <button type="submit" class="primary-button">&#x1F5FA;&#xFE0F; Create Journey Plan</button>
+
+                            <button type="button" class="secondary-button" id="clearJourneyForm">
+                            Clear Form
+                        </button>
+                        </div>
+
+                        <p id="journeyFormStatus" role="status" aria-live="polite"></p>
+                    </form>
+                </div>
+
+                <div class="content-card">
+                    <h2>Your Journey Plan</h2>
+                    <div id="journeyPlanResult">
+                        <p class="empty-state">
+                            Create a journey plan to see your details here.
+                        </p>
+                    </div>
+
+                    <div class="button-group">
+                        <button type="button" class="secondary-button" id="openJourneyMap">
+                        Open Route in Google Maps
+                    </button>
+
+                        <button type="button" class="sms-button" id="shareJourneyUpdate">
+                        Prepare Journey SMS
+                    </button>
+                    </div>
+
+                    <p id="journeyActionStatus" role="status" aria-live="polite"></p>
+                </div>
+
+                <!-- ================= SAFENAV DEAD-MAN'S TIMER ================= -->
+                <div class="content-card safewalk-card">
+                    <div class="section-heading">
+                        <div>
+                            <h2>SafeWalk™ Automated Check-in Timer</h2>
+                            <p>Walking alone or in a cab? If you don't check in before the timer expires, an emergency SOS is automatically dispatched.</p>
+                        </div>
+                        <span class="safewalk-badge">⏱️ Active Protection</span>
+                    </div>
+
+                    <div class="safewalk-controls" id="safewalkSetup">
+                        <label for="safewalkDuration">Set Journey Duration:</label>
+                        <div class="button-group timer-preset-group">
+                            <button type="button" class="secondary-button" onclick="setSafeWalkTime(1)">1 Min (Demo)</button>
+                            <button type="button" class="secondary-button" onclick="setSafeWalkTime(5)">5 Mins</button>
+                            <button type="button" class="secondary-button" onclick="setSafeWalkTime(15)">15 Mins</button>
+                            <button type="button" class="secondary-button" onclick="setSafeWalkTime(30)">30 Mins</button>
+                        </div>
+                        <div class="form-group" style="margin-top: 10px;">
+                            <label for="safewalkPin">Set Safety PIN (to disarm upon safe arrival):</label>
+                            <input type="password" id="safewalkPin" placeholder="Default PIN: 1234" maxlength="6" value="1234" style="max-width: 200px;">
+                        </div>
+                        <button type="button" class="primary-button" id="startSafeWalkBtn" onclick="startSafeWalk()">
+                            🛡️ Start SafeWalk Timer
+                        </button>
+                    </div>
+
+                    <div id="safewalkActivePanel" class="safewalk-active-panel" style="display: none;">
+                        <div class="safewalk-timer-display">
+                            <span id="safewalkTimeLeft">15:00</span>
+                            <small>TIME REMAINING BEFORE AUTO-SOS</small>
+                        </div>
+                        <div class="safewalk-disarm-box">
+                            <label for="disarmPinInput">Enter PIN to Confirm Safe Arrival:</label>
+                            <div class="pin-input-row">
+                                <input type="password" id="disarmPinInput" placeholder="Enter PIN" maxlength="6">
+                                <button type="button" class="primary-button" onclick="disarmSafeWalk()">✅ I Am Safe</button>
+                            </div>
+                        </div>
+                        <p id="safewalkStatus" class="status-message"></p>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <h2>Journey Safety Checklist</h2>
+
+                    <label>
+                    <input type="checkbox" class="journey-check">
+                    Check the route before leaving
+                </label>
+
+                    <label>
+                    <input type="checkbox" class="journey-check">
+                    Keep my phone charged
+                </label>
+
+                    <label>
+                    <input type="checkbox" class="journey-check">
+                    Share journey details with someone I trust
+                </label>
+
+                    <label>
+                    <input type="checkbox" class="journey-check">
+                    Confirm my safe arrival
+                </label>
+
+                    <p id="journeyChecklistProgress">0% completed</p>
+                </div>
+
+            </section>
+
+
+            <!-- ================= 5. INCIDENT LOG ================= -->
+            <section id="incidents" class="page-section incidents-page">
+
+                <div class="page-intro">
+                    <p class="eyebrow">PERSONAL RECORDS</p>
+                    <h2>Incident Log 📝</h2>
+                    <p>
+                        Keep a private record of incidents for your own reference. Only record details when it is safe to do so.
+                    </p>
+                </div>
+
+                <div class="content-card">
+                    <form id="incidentForm">
+
+                        <div class="form-group">
+                            <label for="incidentTitle">Incident title</label>
+                            <input type="text" id="incidentTitle" placeholder="Brief title" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="incidentDate">Date</label>
+                            <input type="date" id="incidentDate" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="incidentCategory">Category</label>
+                            <select id="incidentCategory" required>
+                            <option value="">Select a category</option>
+                            <option value="Harassment">Harassment</option>
+                            <option value="Online Threat">Online Threat</option>
+                            <option value="Stalking">Stalking</option>
+                            <option value="Privacy Concern">Privacy Concern</option>
+                            <option value="Other">Other</option>
+                        </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="incidentLocation">
+                            Location (optional)
+                        </label>
+                            <input type="text" id="incidentLocation" placeholder="Enter location if safe">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="incidentNotes">Notes (optional)</label>
+                            <textarea id="incidentNotes" rows="4" maxlength="3000" placeholder="Write what you want to remember"></textarea>
+
+                            <p>
+                                <span id="incidentNotesCount">0</span> characters
+                            </p>
+                        </div>
+
+                        <button type="submit" class="primary-button">&#x1F4BE; Save Incident</button>
+
+                        <p id="incidentFormStatus" role="status" aria-live="polite"></p>
+                    </form>
+                </div>
+
+                <div class="content-card">
+                    <h2>Saved Incidents</h2>
+
+                    <label for="incidentFilter">Filter by category</label>
+                    <select id="incidentFilter">
+                    <option value="all">All incidents</option>
+                    <option value="Harassment">Harassment</option>
+                    <option value="Online Threat">Online Threat</option>
+                    <option value="Stalking">Stalking</option>
+                    <option value="Privacy Concern">Privacy Concern</option>
+                    <option value="Other">Other</option>
+                </select>
+
+                    <p id="incidentCount">0 incidents</p>
+
+                    <div id="incidentList">
+                        <p class="empty-state">
+                            Your saved incident records will appear here.
+                        </p>
+                    </div>
+                </div>
+
+            </section>
+
+
+            <!-- ================= 6. PRIVACY & SAFETY ================= -->
+            <section id="privacy" class="page-section privacy-page">
+
+                <div class="page-intro">
+                    <p class="eyebrow">PROTECT YOURSELF</p>
+                    <h2>Privacy & Safety 🔐</h2>
+                    <p>
+                        Simple ways to protect your personal information and digital privacy.
+                    </p>
+                </div>
+
+                <div class="content-card">
+                    <h2>Personal Safety Reminders</h2>
+
+                    <ul>
+                        <li>Never share OTPs or passwords with unexpected callers.</li>
+                        <li>Review the permissions granted to your apps.</li>
+                        <li>Avoid posting your live location publicly.</li>
+                        <li>Share journey details only with people you trust.</li>
+                        <li>Keep evidence of threatening messages when safe.</li>
+                        <li>Use strong, unique passwords for important accounts.</li>
+                    </ul>
+
+                    <button type="button" class="primary-button" onclick="showPrivacyReminder()">
+                    Show Privacy Reminder
+                </button>
+                </div>
+
+                <div class="content-card">
+                    <h2>Important Information</h2>
+                    <p>
+                        Trusted contacts and incident records are stored in your browser's local storage. Other people using the same device or browser profile may be able to access them. Clearing browser data can delete these records.
+                    </p>
+                    <p>
+                        SafeHer does not guarantee emergency response, automatically contact authorities, or continuously track your location.
+                    </p>
+                </div>
+
+            </section>
+
+
+            <!-- ================= 7. ABOUT ================= -->
+            <section id="about" class="page-section about-page">
+
+                <div class="page-intro">
+                    <p class="eyebrow">ABOUT THE PROJECT</p>
+                    <h2>About SafeHer 💗</h2>
+                    <p>
+                        A women's safety awareness and support web application.
+                    </p>
+                </div>
+
+                <div class="content-card">
+                    <h2>Our Purpose</h2>
+                    <p>
+                        SafeHer brings useful safety tools together in one interface to help users prepare, recognize possible digital threats, plan journeys, and record incidents.
+                    </p>
+                </div>
+
+                <div class="content-card">
+                    <h2>Features</h2>
+                    <ul>
+                        <li>Personal safety dashboard</li>
+                        <li>Emergency message preparation and location sharing</li>
+                        <li>Rule-based digital threat screening</li>
+                        <li>Safe journey planning</li>
+                        <li>Local incident records</li>
+                        <li>Privacy and safety reminders</li>
+                    </ul>
+                </div>
+
+                <div class="content-card">
+                    <h2>Use Responsibly</h2>
+                    <p>
+                        SafeHer is a student safety-support project, not a replacement for emergency services. In India, call 112 if you need emergency assistance and it is safe to make the call.
+                    </p>
+                </div>
+
+            </section>
+
+            <footer class="main-footer">
+                <p>SafeHer 💗 — Your safety matters.</p>
+            </footer>
+
+        </main>
+
+    </div>
+
+
+    <!-- ================= FULLSCREEN OVERLAY: DISCREET FAKE CALL ================= -->
+    <div id="fakeCallOverlay" class="fake-call-modal" style="display: none;">
+        <div class="fake-call-screen">
+            <div class="fake-call-caller">
+                <div class="caller-avatar">👨</div>
+                <h2 id="fakeCallerName">Dad</h2>
+                <p id="fakeCallState">Incoming Audio Call...</p>
+            </div>
+            
+            <div id="fakeCallRingingActions" class="fake-call-actions">
+                <button type="button" class="call-btn decline-call-btn" onclick="endFakeCall()" aria-label="Decline Call">
+                    ❌ Decline
+                </button>
+                <button type="button" class="call-btn accept-call-btn" onclick="acceptFakeCall()" aria-label="Accept Call">
+                    📞 Accept
+                </button>
+            </div>
+
+            <div id="fakeCallConnectedActions" class="fake-call-connected-ui" style="display: none;">
+                <div class="connected-timer" id="callDurationTimer">00:00</div>
+                <p class="call-simulation-note">🔊 Audio simulation active. Speak naturally: "Yes Dad, I'm almost home!"</p>
+                <button type="button" class="call-btn end-call-btn" onclick="endFakeCall()">
+                    ❌ End Call
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= FULLSCREEN OVERLAY: STEALTH CALCULATOR ================= -->
+    <div id="stealthCalcOverlay" class="stealth-calc-modal" style="display: none;">
+        <div class="calc-container">
+            <div class="calc-header">
+                <span>Calculator</span>
+                <small title="Enter 1122 and press = to return to SafeHer">Tip: 1122= to exit</small>
+            </div>
+            <div class="calc-screen" id="calcScreen">0</div>
+            <div class="calc-buttons">
+                <button type="button" onclick="calcInput('C')" class="calc-btn op">C</button>
+                <button type="button" onclick="calcInput('+/-')" class="calc-btn op">±</button>
+                <button type="button" onclick="calcInput('%')" class="calc-btn op">%</button>
+                <button type="button" onclick="calcInput('/')" class="calc-btn op">÷</button>
+                <button type="button" onclick="calcInput('7')" class="calc-btn">7</button>
+                <button type="button" onclick="calcInput('8')" class="calc-btn">8</button>
+                <button type="button" onclick="calcInput('9')" class="calc-btn">9</button>
+                <button type="button" onclick="calcInput('*')" class="calc-btn op">×</button>
+                <button type="button" onclick="calcInput('4')" class="calc-btn">4</button>
+                <button type="button" onclick="calcInput('5')" class="calc-btn">5</button>
+                <button type="button" onclick="calcInput('6')" class="calc-btn">6</button>
+                <button type="button" onclick="calcInput('-')" class="calc-btn op">−</button>
+                <button type="button" onclick="calcInput('1')" class="calc-btn">1</button>
+                <button type="button" onclick="calcInput('2')" class="calc-btn">2</button>
+                <button type="button" onclick="calcInput('3')" class="calc-btn">3</button>
+                <button type="button" onclick="calcInput('+')" class="calc-btn op">+</button>
+                <button type="button" onclick="calcInput('0')" class="calc-btn zero">0</button>
+                <button type="button" onclick="calcInput('.')" class="calc-btn">.</button>
+                <button type="button" onclick="calcInput('=')" class="calc-btn eq">=</button>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
